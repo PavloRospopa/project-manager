@@ -3,7 +3,6 @@ package com.gmail.at.rospopa.pavlo.projectmanager.persistence.dao.impl.jdbc;
 import com.gmail.at.rospopa.pavlo.projectmanager.persistence.dao.UserDaoTest;
 import com.gmail.at.rospopa.pavlo.projectmanager.persistence.dao.impl.jdbc.util.ConnectionManager;
 import com.gmail.at.rospopa.pavlo.projectmanager.persistence.dao.impl.jdbc.util.ScriptExecutant;
-import com.gmail.at.rospopa.pavlo.projectmanager.persistence.dao.impl.jdbc.util.TestConnectionManager;
 import com.gmail.at.rospopa.pavlo.projectmanager.util.ResourcesUtil;
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +11,7 @@ public class JdbcUserDaoTest extends UserDaoTest {
     private ScriptExecutant scriptExecutant;
 
     public JdbcUserDaoTest() {
-        ConnectionManager manager = new TestConnectionManager();
+        ConnectionManager manager = ConnectionManager.fromProperties();
 
         scriptExecutant = new ScriptExecutant(manager);
         scriptExecutant.executePLSQLScript(ResourcesUtil.getResourceFile("dropTablesSeqs.sql"));

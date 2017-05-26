@@ -3,16 +3,16 @@ package com.gmail.at.rospopa.pavlo.projectmanager.persistence.dao.impl.jdbc;
 import com.gmail.at.rospopa.pavlo.projectmanager.persistence.dao.ProjectDaoTest;
 import com.gmail.at.rospopa.pavlo.projectmanager.persistence.dao.impl.jdbc.util.ConnectionManager;
 import com.gmail.at.rospopa.pavlo.projectmanager.persistence.dao.impl.jdbc.util.ScriptExecutant;
-import com.gmail.at.rospopa.pavlo.projectmanager.persistence.dao.impl.jdbc.util.TestConnectionManager;
 import com.gmail.at.rospopa.pavlo.projectmanager.util.ResourcesUtil;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
 
 public class JdbcProjectDaoTest extends ProjectDaoTest {
 
     private ScriptExecutant scriptExecutant;
 
     public JdbcProjectDaoTest() {
-        ConnectionManager manager = new TestConnectionManager();
+        ConnectionManager manager = ConnectionManager.fromProperties();
 
         scriptExecutant = new ScriptExecutant(manager);
         scriptExecutant.executePLSQLScript(ResourcesUtil.getResourceFile("dropTablesSeqs.sql"));

@@ -20,8 +20,27 @@ public class Application {
     private DaoFactory daoFactory;
     private PropertiesLoader propLoader;
 
+    public Application() {
+    }
+
     public Application(ServletContext servletContext, ServiceLocator serviceLocator) {
         this.servletContext = servletContext;
+        this.serviceLocator = serviceLocator;
+    }
+
+    public ServletContext getServletContext() {
+        return servletContext;
+    }
+
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+
+    public ServiceLocator getServiceLocator() {
+        return serviceLocator;
+    }
+
+    public void setServiceLocator(ServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
     }
 

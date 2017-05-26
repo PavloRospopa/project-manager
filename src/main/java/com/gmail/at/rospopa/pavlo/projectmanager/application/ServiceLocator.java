@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public enum ServiceLocator {
     INSTANCE;
-    public static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private Map<String, Object> objects = new ConcurrentHashMap<>();
 
