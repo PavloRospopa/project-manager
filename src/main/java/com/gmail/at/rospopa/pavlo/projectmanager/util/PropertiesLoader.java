@@ -11,8 +11,6 @@ import java.util.Properties;
 public class PropertiesLoader {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final PropertiesLoader INSTANCE = new PropertiesLoader();
-
     private static final String DB_PROPERTIES = "database.properties";
     private static final String METAMODEL_PROPERTIES = "metamodel.properties";
     private static final String JSON_DB_PROPERTIES = "jsonDatabase.properties";
@@ -25,16 +23,12 @@ public class PropertiesLoader {
     private Properties xmlDBProperties;
     private Properties binDBProperties;
 
-    private PropertiesLoader() {
+    public PropertiesLoader() {
         dbProperties = loadProperties(ResourcesUtil.getResourceInputStream(DB_PROPERTIES));
         metamodelProperties = loadProperties(ResourcesUtil.getResourceInputStream(METAMODEL_PROPERTIES));
         jsonDBProperties = loadProperties(ResourcesUtil.getResourceInputStream(JSON_DB_PROPERTIES));
         xmlDBProperties = loadProperties(ResourcesUtil.getResourceInputStream(XML_DB_PROPERTIES));
         binDBProperties = loadProperties(ResourcesUtil.getResourceInputStream(BIN_DB_PROPERTIES));
-    }
-
-    public static PropertiesLoader getInstance() {
-        return INSTANCE;
     }
 
     public Properties getDbProperties() {

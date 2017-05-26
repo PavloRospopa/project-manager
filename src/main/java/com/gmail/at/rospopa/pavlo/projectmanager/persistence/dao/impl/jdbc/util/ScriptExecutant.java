@@ -15,10 +15,10 @@ import java.util.regex.Pattern;
 public class ScriptExecutant {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private Connection connection;
+    private ConnectionManager connManager;
 
-    public ScriptExecutant(Connection connection) {
-        this.connection = connection;
+    public ScriptExecutant(ConnectionManager connManager) {
+        this.connManager = connManager;
     }
 
     public boolean executeSQLScript(File file) {
@@ -30,10 +30,11 @@ public class ScriptExecutant {
     }
 
     private boolean executeScript(File file, Pattern pattern) {
+        Connection connection = connManager.getConnection();
         if (connection == null) {
             throw new RuntimeSqlException();
         }
-        startTransaction();
+        startTransaction(connection);
 
         int stmtNum = 0;
         try (Scanner scanner = new Scanner(file).useDelimiter(pattern);
@@ -42,22 +43,23 @@ public class ScriptExecutant {
                 stmtNum++;
                 statement.execute(scanner.next());
             }
-            commit();
+            commit(connection);
             return true;
         } catch (FileNotFoundException e) {
             LOGGER.error(String.format("Script file %s not found", file), e);
         } catch (SQLException e) {
             LOGGER.error(String.format("Error while executing SQL script at statement #%d in file %s",
                     stmtNum, file), e);
-            rollback();
+            rollback(connection);
             throw new RuntimeSqlException();
         } finally {
-            endTransaction();
+            endTransaction(connection);
+            connManager.close(connection);
         }
         return false;
     }
 
-    private void startTransaction() {
+    private void startTransaction(Connection connection) {
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
@@ -66,7 +68,7 @@ public class ScriptExecutant {
         }
     }
 
-    private void commit() {
+    private void commit(Connection connection) {
         try {
             connection.commit();
         } catch (SQLException e) {
@@ -75,7 +77,7 @@ public class ScriptExecutant {
         }
     }
 
-    private void rollback() {
+    private void rollback(Connection connection) {
         try {
             connection.rollback();
         } catch (SQLException e) {
@@ -84,7 +86,7 @@ public class ScriptExecutant {
         }
     }
 
-    private void endTransaction() {
+    private void endTransaction(Connection connection) {
         try {
             connection.setAutoCommit(true);
         } catch (SQLException e) {

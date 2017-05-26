@@ -7,6 +7,7 @@
     <groupId>rospopa</groupId>
     <artifactId>project-manager</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <dependencies>
         <dependency>
@@ -45,6 +46,12 @@
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>2.8.7</version>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -77,6 +84,19 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://localhost:8086/manager/text</url>
+                    <server>tomcat</server>
+
+                    <path>/</path>
+                    <port>9090</port>
                 </configuration>
             </plugin>
         </plugins>

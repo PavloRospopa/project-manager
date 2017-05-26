@@ -1,2 +1,2 @@
-# project-manager-daos
-Implementations of various dao for project-manager web app
+# project-manager
+project-manager web app that uses low level APIs like JDBC and Servlet
